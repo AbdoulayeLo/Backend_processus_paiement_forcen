@@ -1,4 +1,4 @@
-package sn.forcen.processus_paiement_forcen_backend;
+package sn.forcen;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
