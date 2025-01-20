@@ -11,18 +11,27 @@ import java.util.Date;
 @NoArgsConstructor
 @Validated
 @Entity
-@Table
-public class Utilisateur {
+/***
+?Recommande une normalisation où chaque sous-classe a sa propre table liée à celle de la classe parente.
+ */
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Utilisateur {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String prenom;
     private String nom;
     private String sexe;
     private Date dateNaiss;
     private String email;
     private String password;
-    private int telephone;
+    private Integer telephone;
     private String nationalite;
     private String paysResidence;
     private String villeResidence;
+
+    /**
+     *  // Attribut pour l'archivage d'utilisateur
+     */
+    private boolean isArchived = false;
 }

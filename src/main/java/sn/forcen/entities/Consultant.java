@@ -9,11 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Consultant extends Utilisateur{
     private double renumeration;
     private String competence;
+    private String speialiste;
 }
