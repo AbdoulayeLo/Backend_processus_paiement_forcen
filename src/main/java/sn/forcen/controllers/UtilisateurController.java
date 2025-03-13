@@ -1,5 +1,6 @@
 package sn.forcen.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sn.forcen.entities.Utilisateur;
@@ -8,7 +9,7 @@ import sn.forcen.services.UtilisateurService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/utilisateurs")
+@RequestMapping("/utilisateurs")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -35,11 +36,27 @@ public class UtilisateurController {
 
     //Creer Un Utilisateur
     @PostMapping
-    public ResponseEntity<Utilisateur> createUtilisateur(Utilisateur utilisateur){
-        Utilisateur addUtilisateur = utilisateurService.createUtilisateur(utilisateur);
-        return ResponseEntity.status(201).body(addUtilisateur);
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Utilisateur utilisateur){
+        try{
+            Utilisateur addUtilisateur = utilisateurService.createUtilisateur(utilisateur);
+            return ResponseEntity.status(201).body(addUtilisateur);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
-
+    //Modifier Utilisateur
+    @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+//    ResponseEntity<Utilisateur>
+    public ResponseEntity<?> updateUtilisateur(@RequestBody Utilisateur utilisateur) {
+        try {
+            Utilisateur modifUtilisateur = utilisateurService.updateUtilisateur(utilisateur);
+            return ResponseEntity.status(201).body(modifUtilisateur); // HTTP 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // HTTP 404 Not Found
+        }
+    }
     // Archiver Utilisateur
     @PutMapping("/{id}/archiver")
     public ResponseEntity<String> archiverUtilisateur(@PathVariable Long id){
